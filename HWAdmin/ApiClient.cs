@@ -269,19 +269,23 @@ namespace ComputerHardwareStockMonitoringSystem
             }
         }
 
-        // Validate hardware inventory response
+        // Validate hardware inventory API response
         private void EnsureSuccess(HardwareApiResponse response)
         {
+            // Check if server response is empty
             if (response == null)
-                throw new Exception("Invalid server response.");
-
-            if (!response.success)
             {
-                throw new Exception(
-                    string.IsNullOrWhiteSpace(response.message)
-                        ? "Request failed."
-                        : response.message
-                );
+                throw new Exception("Invalid server response.");
+            }
+
+            // Check if API request failed
+            if (response.success == false)
+            {
+                string errorMessage = string.IsNullOrWhiteSpace(response.message)
+                    ? "Request failed."
+                    : response.message;
+
+                throw new Exception(errorMessage);
             }
         }
 
