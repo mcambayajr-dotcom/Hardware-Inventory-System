@@ -93,19 +93,26 @@ namespace ComputerHardwareStockMonitoringSystem
             return Post(values);
         }
 
-        // Retrieve all customer orders
+        // Retrieve all customer orders from the API
         public List<OrderRecord> ListOrders()
         {
-            using (var wc = CreateWebClient(true))
+            using (WebClient client = CreateWebClient(true))
             {
-                string json = wc.DownloadString(BaseUrl + "?action=list_orders");
+                string requestUrl = BaseUrl + "?action=list_orders";
 
-                OrderApiResponse response =
-                    serializer.Deserialize<OrderApiResponse>(json);
+                string responseJson = client.DownloadString(requestUrl);
 
-                EnsureSuccess(response);
+                OrderApiResponse apiResponse =
+                    serializer.Deserialize<OrderApiResponse>(responseJson);
 
-                return response.data ?? new List<OrderRecord>();
+                EnsureSuccess(apiResponse);
+
+                if (apiResponse.data == null)
+                {
+                    return new List<OrderRecord>();
+                }
+
+                return apiResponse.data;
             }
         }
 
