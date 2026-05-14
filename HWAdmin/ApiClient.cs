@@ -156,38 +156,46 @@ namespace ComputerHardwareStockMonitoringSystem
             return values;
         }
 
-        // Send POST request to the API
+        // Send POST request data to the API server
         private string Post(NameValueCollection values)
         {
             using (var wc = CreateWebClient(true))
             {
                 try
                 {
-                    // Upload POST data to API
-                    byte[] result = wc.UploadValues(BaseUrl, "POST", values);
+                    // Execute POST request
+                    byte[] responseBytes =
+                        wc.UploadValues(BaseUrl, "POST", values);
 
-                    // Convert byte response into string
-                    string json = Encoding.UTF8.GetString(result);
+                    // Convert API response into JSON string
+                    string jsonResponse =
+                        Encoding.UTF8.GetString(responseBytes);
 
-                    // Deserialize response
-                    BasicApiResponse response =
-                        serializer.Deserialize<BasicApiResponse>(json);
+                    // Convert JSON response into object
+                    BasicApiResponse apiResponse =
+                        serializer.Deserialize<BasicApiResponse>(jsonResponse);
 
-                    EnsureSuccess(response);
+                    // Validate API response
+                    EnsureSuccess(apiResponse);
 
-                    return string.IsNullOrWhiteSpace(response.message)
-                        ? "Operation completed."
-                        : response.message;
+                    // Return success message
+                    if (string.IsNullOrWhiteSpace(apiResponse.message))
+                    {
+                        return "Operation completed.";
+                    }
+
+                    return apiResponse.message;
                 }
                 catch (WebException ex)
                 {
-                    // Read server-side error message
-                    string serverMessage = ReadServerError(ex);
+                    // Read error returned by the API
+                    string serverError = ReadServerError(ex);
 
+                    // Throw readable exception message
                     throw new Exception(
-                        string.IsNullOrWhiteSpace(serverMessage)
+                        string.IsNullOrWhiteSpace(serverError)
                             ? ex.Message
-                            : serverMessage
+                            : serverError
                     );
                 }
             }
