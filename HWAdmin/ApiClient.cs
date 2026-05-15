@@ -234,23 +234,24 @@ namespace ComputerHardwareStockMonitoringSystem
             }
         }
 
-        // Create configured WebClient instance
+        // Create and configure WebClient for API communication
         private WebClient CreateWebClient(bool admin)
         {
-            var wc = new WebClient();
+            WebClient client = new WebClient();
 
-            wc.Encoding = Encoding.UTF8;
+            // Set UTF-8 encoding for request and response data
+            client.Encoding = Encoding.UTF8;
 
-            // Attach admin token header if admin access is required
-            if (admin)
+            // Add admin authentication token when needed
+            if (admin == true)
             {
-                wc.Headers.Add(
+                client.Headers.Add(
                     "X-Admin-Token",
                     AdminSettings.AdminApiToken
                 );
             }
 
-            return wc;
+            return client;
         }
 
         // Safely trim null string values
