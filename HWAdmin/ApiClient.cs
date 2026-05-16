@@ -298,19 +298,23 @@ namespace ComputerHardwareStockMonitoringSystem
             }
         }
 
-        // Validate customer order response
+        // Validate customer order API response
         private void EnsureSuccess(OrderApiResponse response)
         {
+            // Check if API response object exists
             if (response == null)
-                throw new Exception("Invalid server response.");
-
-            if (!response.success)
             {
-                throw new Exception(
-                    string.IsNullOrWhiteSpace(response.message)
-                        ? "Request failed."
-                        : response.message
-                );
+                throw new Exception("Invalid server response.");
+            }
+
+            // Verify if the API request was successful
+            if (response.success == false)
+            {
+                string errorMessage = string.IsNullOrWhiteSpace(response.message)
+                    ? "Request failed."
+                    : response.message;
+
+                throw new Exception(errorMessage);
             }
         }
     }
