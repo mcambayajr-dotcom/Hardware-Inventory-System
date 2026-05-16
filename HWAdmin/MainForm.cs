@@ -359,16 +359,25 @@ namespace ComputerHardwareStockMonitoringSystem
         }
 
         // Loads selected customer order details
+        // Loads selected customer order details
         private void PopulateFromSelectedOrder()
         {
-            // Prevent errors if no order is selected
-            if (
-                orderGrid == null ||
-                orderGrid.SelectedRows.Count == 0 ||
-                orderGrid.CurrentRow == null ||
-                orderGrid.CurrentRow.DataBoundItem == null
-            )
+            // Check if order table or selected row is invalid
+            if (orderGrid == null)
                 return;
+
+            if (orderGrid.SelectedRows.Count == 0)
+                return;
+
+            if (orderGrid.CurrentRow == null)
+                return;
+
+            if (orderGrid.CurrentRow.DataBoundItem == null)
+                return;
+
+            // Get selected order
+            OrderRecord order =
+                (OrderRecord)orderGrid.CurrentRow.DataBoundItem;
 
             // Additional order selection logic here...
         }
