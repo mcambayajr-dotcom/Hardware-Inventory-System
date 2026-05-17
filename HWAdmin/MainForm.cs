@@ -313,9 +313,11 @@ namespace ComputerHardwareStockMonitoringSystem
         // Filters inventory records based on search and category
         private void ApplyFilters()
         {
-            // Prevent filtering if collection is unavailable
+            // Stop method if item collection is empty
             if (items == null)
+            {
                 return;
+            }
 
             // Additional filtering logic here...
         }
@@ -323,17 +325,21 @@ namespace ComputerHardwareStockMonitoringSystem
         // Filters customer orders based on search and status
         private void ApplyOrderFilters()
         {
-            // Prevent filtering if collection is unavailable
+            // Stop method if order collection is empty
             if (orders == null)
+            {
                 return;
+            }
 
             // Additional filtering logic here...
         }
 
-        // Checks if a string contains the given keyword
+        // Checks if text contains the search keyword
         private bool Contains(string value, string keyword)
         {
-            return (value ?? string.Empty)
+            string text = value ?? string.Empty;
+
+            return text
                 .ToLowerInvariant()
                 .Contains(keyword);
         }
