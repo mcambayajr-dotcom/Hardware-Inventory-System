@@ -624,19 +624,31 @@ namespace ComputerHardwareStockMonitoringSystem
             Color color
         )
         {
-            var btn = new Button
-            {
-                Text = text,
-                Location = new Point(x, y),
-                Size = new Size(w, 40),
-                BackColor = color,
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
-                Cursor = Cursors.Hand
-            };
+            Button btn = new Button();
 
-            // Remove button border
+            // Set button text
+            btn.Text = text;
+
+            // Set button position and size
+            btn.Location = new Point(x, y);
+            btn.Size = new Size(w, 40);
+
+            // Set button appearance
+            btn.BackColor = color;
+            btn.ForeColor = Color.White;
+            btn.FlatStyle = FlatStyle.Flat;
+
+            // Set font style
+            btn.Font = new Font(
+                "Segoe UI",
+                10F,
+                FontStyle.Bold
+            );
+
+            // Show hand cursor on hover
+            btn.Cursor = Cursors.Hand;
+
+            // Remove border
             btn.FlatAppearance.BorderSize = 0;
 
             return btn;
