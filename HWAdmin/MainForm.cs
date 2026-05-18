@@ -225,31 +225,44 @@ namespace ComputerHardwareStockMonitoringSystem
         // Applies consistent styling to all DataGridView controls
         private void StyleGrid(DataGridView dgv)
         {
-            // Disable default Windows styling
+            // Stop if grid is null
+            if (dgv == null)
+            {
+                return;
+            }
+
+            // Disable default Windows header style
             dgv.EnableHeadersVisualStyles = false;
 
-            // Customize header appearance
+            // Header background color
             dgv.ColumnHeadersDefaultCellStyle.BackColor =
                 Color.FromArgb(24, 91, 76);
 
+            // Header text color
             dgv.ColumnHeadersDefaultCellStyle.ForeColor =
                 Color.White;
 
+            // Header font style
             dgv.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Segoe UI", 10.5F, FontStyle.Bold);
+                new Font(
+                    "Segoe UI",
+                    10.5F,
+                    FontStyle.Bold
+                );
 
-            // Set default row font
+            // Row font style
             dgv.DefaultCellStyle.Font =
                 new Font("Segoe UI", 10.5F);
 
-            // Adjust row and header sizes
+            // Set header and row height
             dgv.ColumnHeadersHeight = 38;
             dgv.RowTemplate.Height = 34;
 
-            // Set row selection colors
+            // Selected row background color
             dgv.DefaultCellStyle.SelectionBackColor =
                 Color.FromArgb(202, 241, 228);
 
+            // Selected row text color
             dgv.DefaultCellStyle.SelectionForeColor =
                 Color.FromArgb(18, 54, 48);
 
