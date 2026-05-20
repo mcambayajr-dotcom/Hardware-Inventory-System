@@ -8,22 +8,31 @@ using System.Windows.Forms;
 
 namespace ComputerHardwareStockMonitoringSystem
 {
-    // Main administrator dashboard form for managing inventory and customer orders
+    // Main administrator dashboard form
     public class MainForm : Form
     {
-        // API client used for server communication
-        private readonly ApiClient api = new ApiClient();
+        // API communication handler
+        private readonly ApiClient api =
+            new ApiClient();
 
-        // Inventory table and filter controls
+        // =========================
+        // Inventory Controls
+        // =========================
+
         private DataGridView grid;
+
         private TextBox txtSearch;
         private ComboBox cboFilterCategory;
         private ComboBox cboFilterStatus;
+
         private Label lblCount;
         private Label lblMode;
         private Label lblDetails;
 
-        // Inventory input form controls
+        // =========================
+        // Inventory Form Inputs
+        // =========================
+
         private TextBox txtItemName;
         private TextBox txtBrand;
         private TextBox txtModel;
@@ -31,103 +40,133 @@ namespace ComputerHardwareStockMonitoringSystem
         private TextBox txtQuantity;
         private TextBox txtLocation;
         private TextBox txtRemarks;
+
         private ComboBox cboCategory;
         private ComboBox cboStatus;
+
         private Button btnSave;
         private Button btnDelete;
 
-        // Customer order management controls
+        // =========================
+        // Order Management Controls
+        // =========================
+
         private DataGridView orderGrid;
+
         private TextBox txtOrderSearch;
+        private TextBox txtAdminNote;
+
         private ComboBox cboOrderFilter;
         private ComboBox cboOrderStatus;
-        private TextBox txtAdminNote;
+
         private Label lblOrderCount;
         private Label lblOrderDetails;
 
-        // Stores currently selected inventory and order IDs
+        // =========================
+        // Selected Record IDs
+        // =========================
+
         private int selectedId = 0;
         private int selectedOrderId = 0;
 
-        // Data binding collections for UI updates
-        private BindingList<HardwareItem> items = new BindingList<HardwareItem>();
-        private BindingList<OrderRecord> orders = new BindingList<OrderRecord>();
+        // =========================
+        // Data Collections
+        // =========================
 
-        // Master lists used for filtering and searching
-        private List<HardwareItem> allItems = new List<HardwareItem>();
-        private List<OrderRecord> allOrders = new List<OrderRecord>();
+        private BindingList<HardwareItem> items =
+            new BindingList<HardwareItem>();
 
-        // Available inventory categories
+        private BindingList<OrderRecord> orders =
+            new BindingList<OrderRecord>();
+
+        private List<HardwareItem> allItems =
+            new List<HardwareItem>();
+
+        private List<OrderRecord> allOrders =
+            new List<OrderRecord>();
+
+        // =========================
+        // Inventory Categories
+        // =========================
+
         private readonly string[] categories =
         {
-            "Computer Unit",
-            "Peripheral",
-            "Network Device",
-            "Storage Device",
-            "Printer",
-            "Power Device",
-            "Other Hardware"
-        };
+        "Computer Unit",
+        "Peripheral",
+        "Network Device",
+        "Storage Device",
+        "Printer",
+        "Power Device",
+        "Other Hardware"
+    };
 
-        // Available inventory statuses
+        // =========================
+        // Inventory Status Options
+        // =========================
+
         private readonly string[] statuses =
         {
-            "Available",
-            "In Use",
-            "Low Stock",
-            "For Repair",
-            "Defective",
-            "Disposed"
-        };
+        "Available",
+        "In Use",
+        "Low Stock",
+        "For Repair",
+        "Defective",
+        "Disposed"
+    };
 
-        // Filter categories for inventory search
+        // =========================
+        // Inventory Filter Options
+        // =========================
+
         private readonly string[] filterCategories =
         {
-            "All Categories",
-            "Computer Unit",
-            "Peripheral",
-            "Network Device",
-            "Storage Device",
-            "Printer",
-            "Power Device",
-            "Other Hardware"
-        };
+        "All Categories",
+        "Computer Unit",
+        "Peripheral",
+        "Network Device",
+        "Storage Device",
+        "Printer",
+        "Power Device",
+        "Other Hardware"
+    };
 
-        // Filter statuses for inventory search
         private readonly string[] filterStatuses =
         {
-            "All Statuses",
-            "Available",
-            "In Use",
-            "Low Stock",
-            "For Repair",
-            "Defective",
-            "Disposed"
-        };
+        "All Statuses",
+        "Available",
+        "In Use",
+        "Low Stock",
+        "For Repair",
+        "Defective",
+        "Disposed"
+    };
 
-        // Order processing statuses
+        // =========================
+        // Order Status Options
+        // =========================
+
         private readonly string[] orderStatuses =
         {
-            "Pending",
-            "Confirmed",
-            "Completed",
-            "Cancelled",
-            "Rejected"
-        };
+        "Pending",
+        "Confirmed",
+        "Completed",
+        "Cancelled",
+        "Rejected"
+    };
 
-        // Order filter statuses
         private readonly string[] orderFilterStatuses =
         {
-            "All Statuses",
-            "Pending",
-            "Confirmed",
-            "Completed",
-            "Cancelled",
-            "Rejected"
-        };
+        "All Statuses",
+        "Pending",
+        "Confirmed",
+        "Completed",
+        "Cancelled",
+        "Rejected"
+    };
+    
 
-        // Main form constructor
-        public MainForm()
+    // Main form constructor
+    public MainForm()
         {
             // Set window properties
             Text = "Hardware Inventory Admin";
